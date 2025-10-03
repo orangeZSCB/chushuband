@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>处暑乐队 | Official</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* 背景图片容器 */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        
+        .bg-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            filter: brightness(0.3); /* 降低亮度以保持黑色主题 */
+        }
+        
+        /* 背景遮罩层，增强文字可读性 */
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav li {
+            margin: 0 20px;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #aaa;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .band-name {
+            font-size: 4rem;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            color: #aaa;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
+        
+        /* 音乐部分 */
+        .music {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 50px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .album {
+            background-color: rgba(17, 17, 17, 0.8);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .album:hover {
+            transform: translateY(-10px);
+        }
+        
+        .album-cover {
+            width: 100%;
+            height: 250px;
+            background-color: #222;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .album-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .album-year {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* 演出部分 */
+        .shows {
+            padding: 100px 0;
+            background-color: rgba(17, 17, 17, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .show-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .show {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .show:last-child {
+            border-bottom: none;
+        }
+        
+        .show-date {
+            font-weight: bold;
+        }
+        
+        .show-venue {
+            color: #aaa;
+        }
+        
+        /* 联系部分 */
+        .contact {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .social-link {
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover {
+            color: #aaa;
+        }
+        
+        /* 页脚 */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #777;
+            border-top: 1px solid #222;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .band-name {
+                font-size: 2.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .show {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .show-date {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景图片 -->
+    <div class="bg-container">
+        <div class="bg-overlay"></div>
+        <img src="./CHUSHU.png" alt="乐队背景" class="bg-image">
+    </div>
+    
+    <!-- 导航 -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a target="_blank" href="https://space.bilibili.com/3461572097739132">音乐</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <h1 class="band-name">处暑乐队</h1>
+        <p class="tagline">THE END OF HEAT BAND</p>
+    </section>
+    
+    <!-- 音乐部分 -->
+    <!--section id="music" class="music">
+        <div class="container">
+            <h2 class="section-title">音乐作品</h2>
+            <div class="album-grid">
+                <div class="album">
+                    <div class="album-cover">01</div>
+                    <h3 class="album-title">寂静之声</h3>
+                    <p class="album-year">2023</p>
+                </div>
+                <div class="album">
+                    <div class="album-cover">02</div>
+                    <h3 class="album-title">黑暗回响</h3>
+                    <p class="album-year">2022</p>
+                </div>
+                <div class="album">
+                    <div class="album-cover">03</div>
+                    <h3 class="album-title">午夜旋律</h3>
+                    <p class="album-year">2021</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="shows" class="shows">
+        <div class="container">
+            <h2 class="section-title">演出日程</h2>
+            <div class="show-list">
+                <div class="show">
+                    <div class="show-date">2023.11.15</div>
+                    <div class="show-venue">北京 · 暗夜音乐厅</div>
+                </div>
+                <div class="show">
+                    <div class="show-date">2023.12.03</div>
+                    <div class="show-venue">上海 · 回声俱乐部</div>
+                </div>
+                <div class="show">
+                    <div class="show-date">2024.01.20</div>
+                    <div class="show-venue">成都 · 地下现场</div>
+                </div>
+            </div>
+        </div>
+    </section>
+-->
+    
+    <!-- 联系部分 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">联系我们</h2>
+            <div class="social-links">
+                <a target="_blank" href="https://space.bilibili.com/3461572097739132" class="social-link">哔哩哔哩</a>
+                <a href="#" class="social-link">邮箱</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 处暑乐队. 保留所有权利。</p>
+        </div>
+    </footer>
+</body>
+</html>
